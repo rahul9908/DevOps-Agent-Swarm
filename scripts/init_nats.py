@@ -79,11 +79,11 @@ async def create_streams(js: nats.js.JetStreamContext) -> None:
             await js.stream_info(stream_name)
             # If it exists, update it
             await js.update_stream(config=stream_config)
-            print(f"  ✓ Updated stream: {stream_name} ({len(config['subjects'])} subjects)")
+            print(f"  [OK] Updated stream: {stream_name} ({len(config['subjects'])} subjects)")
         except nats.js.errors.NotFoundError:
             # Stream doesn't exist — create it
             await js.add_stream(config=stream_config)
-            print(f"  ✓ Created stream: {stream_name} ({len(config['subjects'])} subjects)")
+            print(f"  [OK] Created stream: {stream_name} ({len(config['subjects'])} subjects)")
 
 
 async def main(nats_url: str) -> None:
@@ -95,7 +95,7 @@ async def main(nats_url: str) -> None:
     await create_streams(js)
 
     await nc.drain()
-    print("\n✅ NATS JetStream initialisation complete!")
+    print("\n[DONE] NATS JetStream initialisation complete!")
 
 
 if __name__ == "__main__":
@@ -110,5 +110,5 @@ if __name__ == "__main__":
     try:
         asyncio.run(main(args.nats_url))
     except Exception as exc:
-        print(f"❌ Error: {exc}", file=sys.stderr)
+        print(f"[ERROR] {exc}", file=sys.stderr)
         sys.exit(1)

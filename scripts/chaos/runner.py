@@ -149,7 +149,7 @@ def generate_report(results: list[dict], path: str | None = None) -> str:
     report = "\n".join(lines)
 
     if path:
-        Path(path).write_text(report)
+        Path(path).write_text(report, encoding="utf-8")
         logger.info("Report written to %s", path)
 
     return report

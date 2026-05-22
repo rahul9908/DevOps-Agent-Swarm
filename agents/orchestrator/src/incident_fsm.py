@@ -98,7 +98,10 @@ class IncidentFSM:
         timeout = STATE_TIMEOUTS.get(self.state)
         if timeout is None:
             return False  # resolved/closed don't time out
-        elapsed = (datetime.now(timezone.utc) - self.state_entered_at).total_seconds()
+        sat = self.state_entered_at
+        if sat.tzinfo is None:
+            sat = sat.replace(tzinfo=timezone.utc)
+        elapsed = (datetime.now(timezone.utc) - sat).total_seconds()
         return elapsed > timeout
 
     def should_retry(self) -> bool:
