@@ -1,0 +1,24 @@
+linters:
+  enable:
+    - govet
+    - errcheck
+    - staticcheck
+    - unused
+    - gosimple
+  disable:
+    - deadcode
+    - varcheck
+    - structcheck
+
+linters-settings:
+  errcheck:
+    ignore: fmt:.*,io/ioutil:.*
+
+issues:
+  exclude-rules:
+    - linters:
+        - errcheck
+      text: "rows.Close"
+    - linters:
+        - errcheck
+      text: "db.Close"
